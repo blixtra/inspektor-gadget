@@ -12,6 +12,7 @@
 [![Slack](https://img.shields.io/badge/slack-%23inspektor--gadget-brightgreen.svg?logo=slack)](https://kubernetes.slack.com/messages/inspektor-gadget/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/inspektor-gadget/inspektor-gadget/blob/main/LICENSE)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/inspektor-gadget/inspektor-gadget/blob/main/LICENSE-bpf.txt)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fblixtra%2Finspektor-gadget.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fblixtra%2Finspektor-gadget?ref=badge_shield)
 
 Inspektor Gadget is a collection of tools (or gadgets) to debug and inspect
 Kubernetes resources and applications. It manages the packaging, deployment and
@@ -256,3 +257,6 @@ Join the discussions on the [`#inspektor-gadget`](https://kubernetes.slack.com/m
 The Inspektor Gadget user space components are licensed under the
 [Apache License, Version 2.0](LICENSE). The BPF code templates are licensed
 under the [General Public License, Version 2.0, with the Linux-syscall-note](LICENSE-bpf.txt).
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fblixtra%2Finspektor-gadget.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fblixtra%2Finspektor-gadget?ref=badge_large)
