@@ -30,7 +30,7 @@ TODO: Insert terminal/promo video
 * Build and package eBPF programs into OCI images called Gadgets
 * Runs on Kubernetes and Linux hosts
 * Export data to observability tools with a simple configuration
-* Security mechanism to restrict and lock-down which Gadgets can be run.
+* Security mechanism to restrict and lock-down which Gadgets can be run
 * Enrichment: map kernel data to high-level resources like Kubernetes and container runtimes
 * Create declarative data collection pipelines
 * Post-process eBPF data via [WebAssembly](https://webassembly.org/) modules; using any WASM-supported language 
@@ -51,7 +51,7 @@ kubectl gadget run trace_open
 
 ### Linux
 
-This runs inspektor Gadget locally on 
+This runs inspektor Gadget locally on Linux.
 
 ```bash
 ig run trace_open
@@ -83,7 +83,7 @@ TODO: Insert system diagram
 A Gadget is an [OCI image](https://opencontainers.org/) that includes one or more eBPF programs, metadata YAML file and, optionally, a WASM module for post processing and logo file. They are the central component of Inspektor Gadget's framwork.
 As OCI images that use the same tooling as containers and share the same attributes; shareable, modular, etc.
 Gadgets are built using the `ig image build` command.
-You can find a growing collection of Gadgets 
+You can find a growing collection of Gadgets on [Artifact HUB](https://artifacthub.io/packages/search?kind=22). This includes both in-tree Gadgets (hosted in this git repository in the [/gadgets](/gadgets/README.md) directory and third-party Gadgets).
 
 See the [Gadget documentation](/gadgets/README.md) for more information.
 
@@ -96,7 +96,7 @@ Prior to v0.31.0, Inspektor Gadget shipped gadgets in the binary. As of v0.31.0 
 The data that eBPF collects from the kernel includes no knowledge about Kubernetes, container
 runtimes or any other high-level user-space concepts. In order to relate this data to these high-level
 concepts and make the eBPF data immediately more understandable, Inspektor Gadget automatically
-uses kernel primitives such as mount namespaces, pids, etc. to infer and which high-level
+uses kernel primitives such as mount namespaces, pids, etc. to infer which high-level
 concepts they relate to; Kubernetes pods, container names, DNS names, etc. The process of augmenting
 the eBPF data with these high-level concepts is called enrichment.
 
@@ -176,7 +176,7 @@ instructions](https://www.inspektor-gadget.io/docs/latest/getting-started/) for 
 
 Kernel requirements are largely determined by the specific eBPF functionality a Gadget makes use of.
 The eBPF functionality available to Gadgets depend on the version and configuration of the kernel running
-running in they node/machine where the Gadget is being loaded. Gadgets developed by the Inspektor
+running in the node/machine where the Gadget is being loaded. Gadgets developed by the Inspektor
 Gadget project require at least Linux 5.10 with [BTF](https://www.kernel.org/doc/html/latest/bpf/btf.html) enabled.
 
 Refer to the [documentation for a specific Gadget](/gadgets/README.md) for any notes regarding requirements.
