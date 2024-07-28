@@ -1,7 +1,7 @@
 <h1 align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="docs/images/logo/logo-horizontal.png">
-    <img src="docs/images/logo/logo-horizontal-dark.png" alt="Inspektor Gadget" width="80%">
+    <source media="(prefers-color-scheme: light)" srcset="docs/images/logo/ig-logo-horizontal.svg">
+    <img src="docs/images/logo/ig-logo-horizontal.svg" alt="Inspektor Gadget Logo" width="80%">
   </picture>
 </h1>
 
