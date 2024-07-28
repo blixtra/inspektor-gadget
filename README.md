@@ -28,12 +28,11 @@ TODO: Insert terminal/promo video
 ## Features
 
 * Build and package eBPF programs into OCI images called Gadgets
-* Runs on Kubernetes and Linux hosts
-* Export data to observability tools with a simple configuration
-* Security mechanism to restrict and lock-down which Gadgets can be run
-* Enrichment: map kernel data to high-level resources like Kubernetes and container runtimes
-* Create declarative data collection pipelines
-* Post-process eBPF data via [WebAssembly](https://webassembly.org/) modules; using any WASM-supported language 
+* Targets Kubernetes clusters and Linux hosts
+* Collect and export data to observability tools with a simple command (and soon via declarative configuration)
+* Security mechanisms to restrict and lock-down which Gadgets can be run
+* Automatic [enrichment](#what-is-enrichment): map kernel data to high-level resources like Kubernetes and container runtimes
+* Supports [WebAssembly](https://webassembly.org/) modules to post-process data and customize IG [operators](#what-is-an-operator); using any WASM-supported language 
 * Supports many modes of operation; cli, client-server, API, embeddable via Golang library
 
 ## Quick start
@@ -44,6 +43,8 @@ The following examples use the [trace_open Gadget](/gadgets/trace_open/README.md
 
 ### Kubernetes 
 
+Deploy and run on a Kubernetes cluster
+
 ```bash
 kubectl gadget deploy
 kubectl gadget run trace_open
@@ -51,7 +52,7 @@ kubectl gadget run trace_open
 
 ### Linux
 
-This runs inspektor Gadget locally on Linux.
+Runs Inspektor Gadget locally on Linux.
 
 ```bash
 ig run trace_open
@@ -59,16 +60,16 @@ ig run trace_open
 
 ### MacOS or Windows (but not exclusively)
 
-Run the following on a Linux machine called "my-linux-machine" to make `ig` available to the MacOS or Windows client.
+Run the following on a Linux machine to make `ig` available to clients.
 
 ```bash
-ig --daemon
+ig daemon --host=tcp://0.0.0.0:1234
 ```
 
-On the MacOS or Windows machine use the client to connect and run commands on the server.
+On the MacOS or Windows machine use the `gadgetctl` client to connect and run commands on the server.
 
 ```bash
-gadgetctl --server=my-linux machine
+gadgetctl --remote-address=tcp://$IP:1234
 gadgetctl run trace_open
 ```
 
@@ -80,18 +81,19 @@ TODO: Insert system diagram
 
 ### What is a Gadget?
 
-A Gadget is an [OCI image](https://opencontainers.org/) that includes one or more eBPF programs, metadata YAML file and, optionally, a WASM module for post processing and logo file. They are the central component of Inspektor Gadget's framwork.
-As OCI images that use the same tooling as containers and share the same attributes; shareable, modular, etc.
-Gadgets are built using the `ig image build` command.
+Gadgets are the central component in the Inspektor Gadget framework. A Gadget is an [OCI image](https://opencontainers.org/) that includes one or more eBPF programs, metadata YAML file and, optionally, WASM modules for post processing and a logo file.
+As OCI images, they use the same tooling as containers and share the same attributes; shareable, modular, deployable, etc.
+Gadgets are built using the [`ig image build`](/docs/gadg) command.
+
 You can find a growing collection of Gadgets on [Artifact HUB](https://artifacthub.io/packages/search?kind=22). This includes both in-tree Gadgets (hosted in this git repository in the [/gadgets](/gadgets/README.md) directory and third-party Gadgets).
 
 See the [Gadget documentation](/gadgets/README.md) for more information.
 
-#### :warning: For versions prior to v0.25
+#### :warning: For versions prior to v0.31.0
 
 Prior to v0.31.0, Inspektor Gadget shipped gadgets in the binary. As of v0.31.0 these ***built-in*** Gadgets are still available and work as before but their use is discourage as they will be deprecate at some point. We encourage users to use ***image-based*** Gadgets going forward as they provide more features and decouple the eBPF programs from the Inspektor Gadget release process.
 
-### What is enrichment
+### What is enrichment?
 
 The data that eBPF collects from the kernel includes no knowledge about Kubernetes, container
 runtimes or any other high-level user-space concepts. In order to relate this data to these high-level
@@ -104,14 +106,13 @@ Enrichment flows the other way, too. Inspektor Gadget enables users to do high-p
 in-kernel filtering by only referencing high-level concepts such as Kubernetes pods, container
 names, etc.; automatically translating these to the corresponding low-level kernel resources.
 
-See the enrichment documentation
+See the [enrichment documentation](docs/enrichment)
 
 ### What is an operator
 
-In Inspektor Gadget, an operator is any part of the framework where an action is taken. Some operators are under-the-hood (loading Gadgets, ) while others are user-exposed (enrichment, filtering, export, etc.) and can be reording and overriding. This allows 
+In Inspektor Gadget, an operator is any part of the framework where an action is taken. Some operators are under-the-hood (i.e. fetching and loading Gadgets) while others are user-exposed (enrichment, filtering, export, etc.) and can be reordered and overridden.
 
 See the [operator documentation](docs/operators.md) for more information.
-
 
 ### Further learning
 
@@ -143,7 +144,7 @@ Inspektor Gadget can be installed in several different ways depending on your en
 
 This installs the `ig` and `gadgetctl` tools
 
-TODO: Install `ig`
+TODO: sudo dnf install `inspektor-gadget`
 
 ### For Kubernetes
 
@@ -160,7 +161,9 @@ kubectl gadget deploy
 This installs the `gadgetctl` client tool which enables communicating with `ig` running in daemon
 mode on a Linux host.
 
-TODO: Install `gadgetctl`
+```bash
+brew install ig
+```
 
 ### On Windows
 
