@@ -19,11 +19,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/inspektor-gadget/inspektor-gadget/blob/main/LICENSE)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://github.com/inspektor-gadget/inspektor-gadget/blob/main/LICENSE-bpf.txt)
 
-Inspektor Gadget is an [eBPF](https://ebpf.io/) framework and set of tools to debug and inspect
-containers, Kubernetes clusters and Linux hosts. It manages the packaging, deployment and
-execution of eBPF programs encapsulated in [OCI images](https://opencontainers.org/) called Gadgets.
-
-TODO: Insert terminal/promo video
+Inspektor Gadget is a set of tools and framework for data collection and system inspection on Kubernetes clusters and Linux hosts using [eBPF](https://ebpf.io/). It manages the packaging, deployment and execution of Gadgets (eBPF programs encapsulated in [OCI images](https://opencontainers.org/)) and provides mechanisms to customize and extend Gadget functionality. 
 
 ## Features
 
@@ -50,12 +46,24 @@ kubectl gadget deploy
 kubectl gadget run trace_open
 ```
 
+Or use via `kubectl debug` (requires no installation) for a single node
+
+```bash
+kubectl debug --profile=sysadmin node/minikube-docker -ti --image=ghcr.io/inspektor-gadget/ig -- ig trace open
+```
+
 ### Linux
 
 Runs Inspektor Gadget locally on Linux.
 
 ```bash
 ig run trace_open
+```
+
+### Via Docker
+
+```bash
+docker run -ti --rm --privileged -v /:/host --pid=host ghcr.io/inspektor-gadget/ig trace open
 ```
 
 ### MacOS or Windows (but not exclusively)
@@ -66,18 +74,16 @@ Run the following on a Linux machine to make `ig` available to clients.
 ig daemon --host=tcp://0.0.0.0:1234
 ```
 
-On the MacOS or Windows machine use the `gadgetctl` client to connect and run commands on the server.
+Use the `gadgetctl` client to connect and run commands remote Linux servers.
 
 ```bash
 gadgetctl --remote-address=tcp://$IP:1234
 gadgetctl run trace_open
 ```
 
-***The above demonstrates the simplest command. To learn how to filter, export, etc. please go consult the documentation for the [run](/docs/guides/run.md) command***.
+***The above demonstrates the simplest command. To learn how to filter, export, etc. please consult the documentation for the [run](/docs/guides/run.md) command***.
  
 ## Core concepts
-
-TODO: Insert system diagram
 
 ### What is a Gadget?
 
@@ -100,7 +106,7 @@ runtimes or any other high-level user-space concepts. In order to relate this da
 concepts and make the eBPF data immediately more understandable, Inspektor Gadget automatically
 uses kernel primitives such as mount namespaces, pids, etc. to infer which high-level
 concepts they relate to; Kubernetes pods, container names, DNS names, etc. The process of augmenting
-the eBPF data with these high-level concepts is called enrichment.
+the eBPF data with these high-level concepts is called *enrichment*.
 
 Enrichment flows the other way, too. Inspektor Gadget enables users to do high-performance
 in-kernel filtering by only referencing high-level concepts such as Kubernetes pods, container
@@ -118,23 +124,12 @@ See the [operator documentation](docs/operators.md) for more information.
 
 Use the [project documentation](/docs/_index.md) to learn more about:
 
-* [Overview]()
-* [Concepts]()
-* [Components]()
-* [Gadgets]()
-* [Reference]()
+* [Overview](/docs/_index.md)
+* [Concepts](/docs/core_concepts/_index.md)
+* [Components](https://inspektor-gadget.io/docs/components)
+* [Gadgets](https://inspektor-gadget.io/docs/gadgets)
+* [Reference](https://inspektor-gadget.io/docs/reference)
 * [Contributing]()
-
-We've created a blog series that goes into several topics and concepts in details.
-
-* [A new approach to eBPF observability]()
-* [Concepts: A basic primer on Gadgets]()
-* [Concepts: Advance Gadget usage]()
-* [Concepts: Operators in Inspektor Gadget]()
-* [Collecting metrics with Inspektor Gadget]()
-* [Interactive debugging with Inspektor Gadget]()
-* [Using Inspektor Gadget to leverage eBPF in your project]
-* [Exploring Inspektor Gadget's security mechanisms]()
 
 ## Installation
 
@@ -170,7 +165,14 @@ brew install ig
 This installs the `gadgetctl` client tool which enables communicating with `ig` running in daemon
 mode on a Linux host.
 
-TODO: Install `gadgetctl`
+```bash
+# if using Chocolatey
+choco install inspektor-gadget
+# or if using WinGet
+winget install inspektor-gadget
+```
+
+Or download the [gadgetctl binary](https://github.com/inspektor-gadget/inspektor-gadget/releases/download/v0.30.0/gadgetctl-windows-amd64-v0.30.0.tar.gz) directly
 
 Read the detailed [install
 instructions](https://www.inspektor-gadget.io/docs/latest/getting-started/) for more information.
